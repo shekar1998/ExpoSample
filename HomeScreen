@@ -1,0 +1,134 @@
+import React, { useEffect, useState } from 'react';
+// @ts-ignore
+import { View, StyleSheet, Text, SafeAreaView, FlatList, Image, Dimensions } from 'react-native';
+import Article from '../components/Article';
+import axios from 'axios';
+import Card from '../components/Card';
+import { Circle, Trapezoid, Triangle } from 'react-native-shape';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Button } from 'react-native-paper';
+
+const { width, height } = Dimensions.get('window');
+
+const HomeScreen = () => {
+  const [articles, setArticles] = useState([]);
+  const [articles2, setArticles2] = useState([]);
+
+  const getNews = () => {
+    axios
+      .get('https://newsapi.org/v2/top-headlines?country=us&apiKey=c1ef3317ba2e48c8aeab23ad33adb6e9', {
+        params: {
+          category: 'technology',
+        },
+      })
+      .then((response) => {
+        // handle success
+        setArticles(response.data.articles.splice(4, 1));
+        setArticles2(response.data.articles.splice(4, 1));
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  };
+
+  useEffect(() => {
+    getNews();
+  }, []);
+
+  let obj = [{}];
+
+  return (
+    <PaperProvider>
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={articles}
+          renderItem={({ item }) => (
+            <Article
+              // @ts-ignore
+              urlToImage={item.urlToImage}
+              // @ts-ignore
+              title={item.title}
+              // @ts-ignore
+              description={item.description}
+              // @ts-ignore
+              author={item.author}
+              // @ts-ignore
+              publishedAt={item.publishedAt}
+              // @ts-ignore
+              sourceName={item.source.name}
+              // @ts-ignore
+              url={item.url}
+            />
+          )}
+          // @ts-ignore
+          keyExtractor={(item) => item.title}
+        />
+        <Card />
+        {/* <View style={styles.image2}>
+        <Image
+          source={{
+            uri: 'https://espressocarwash.co.nz/wp-content/uploads/2021/06/516x356-CUSTOMER-FEEDBACK-2.jpg',
+          }}
+          style={styles.image}
+        />
+      </View> */}
+        {/* <Triangle scale={0.5} rotate={45} />
+      <View style={styles.parallelogramInner} />
+      <Triangle scale={0.5} rotate={-45} /> */}
+      </SafeAreaView>
+    </PaperProvider>
+  );
+};
+
+export default HomeScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  image: {
+    width: width / 2,
+    resizeMode: 'cover',
+    height: 300,
+    right: 10,
+    position: 'absolute',
+    zIndex: 14,
+  },
+  image2: {
+    width: '50%',
+    height: height / 4,
+    alignContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    top: -100,
+    overflow: 'hidden',
+    borderBottomWidth: 200,
+    borderLeftWidth: 50,
+    borderLeftColor: 'transparent',
+    borderRightWidth: 50,
+    borderStyle: 'solid',
+  },
+  parallelogramInner: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    backgroundColor: 'red',
+    width: 150,
+    height: 100,
+  },
+  parallelogramRight: {
+    top: 0,
+    right: -50,
+    position: 'absolute',
+  },
+  parallelogramLeft: {
+    top: 0,
+    left: -50,
+    position: 'absolute',
+  },
+});
