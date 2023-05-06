@@ -1,0 +1,83 @@
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import React from 'react';
+
+const { width, height } = Dimensions.get('window');
+
+const Card = () => {
+  return (
+    <View style={styles.parallelogram}>
+      <View style={styles.parallelogramInner}></View>
+      <View style={[styles.parallelogramInner2, styles.triangleCornerBottomLeft]}>
+        <Text>Working</Text>
+      </View>
+    </View>
+  );
+};
+
+export default Card;
+
+const styles = StyleSheet.create({
+  parallelogram: {
+    width: '100%',
+    height: '20%',
+    top: -420,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    left: 40,
+  },
+  parallelogramInner: {
+    width: '25%',
+    height: 40,
+    borderBottomWidth: 50,
+    borderBottomColor: 'transparent',
+    borderLeftWidth: 20,
+    borderLeftColor: '#0099ea',
+    borderRightWidth: 50,
+    borderRightColor: 'transparent',
+    borderStyle: 'solid',
+    overflow: 'hidden',
+    position: 'relative',
+    zIndex: 11,
+    backgroundColor: '#0099ea',
+    borderWidth: 4,
+  },
+  parallelogramInner2: {
+    left: 0,
+    top: 0,
+    width: '25%',
+    height: 40,
+    borderBottomWidth: 50,
+    borderBottomColor: 'red',
+    borderRightWidth: 20,
+    borderRightColor: 'transparent',
+    // borderRightWidth: 50,
+    borderLeftColor: 'transparent',
+    borderStyle: 'solid',
+  },
+  triangleCornerBottomLeft: {
+    transform: [{ rotate: '360deg' }, { rotateX: '180deg' }],
+  },
+  parallelogramRight: {
+    top: 0,
+    right: -50,
+    position: 'absolute',
+  },
+  parallelogramLeft: {
+    top: 0,
+    left: -50,
+    position: 'absolute',
+  },
+  image: {
+    width: width / 2,
+    resizeMode: 'cover',
+    height: 300,
+    right: 10,
+    position: 'absolute',
+    zIndex: 14,
+  },
+  image2: {
+    width: width,
+    height: height / 3,
+  },
+});
